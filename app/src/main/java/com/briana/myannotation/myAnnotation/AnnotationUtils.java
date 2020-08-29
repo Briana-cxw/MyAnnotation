@@ -21,7 +21,6 @@ public class AnnotationUtils {
         InjectView(activity);
         OnClick(activity);
         GetExtra(activity);
-        GetBean(activity);
     }
 
     public static void InjectView(Activity activity) {
@@ -100,21 +99,5 @@ public class AnnotationUtils {
         }
     }
 
-    public static void GetBean(Activity activity) {
-        Class<? extends Activity> cla = activity.getClass();
-        Field[] fields = cla.getDeclaredFields();
-        for (Field field : fields) {
-            if (field.isAnnotationPresent(GetBean.class)) {
-                GetBean getExtra = field.getAnnotation(GetBean.class);
-                String key = getExtra.value();
-                User user = activity.getIntent().getParcelableExtra(key);
-                field.setAccessible(true);
-                try {
-                    field.set(activity, user);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+
 }
